@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crafted with ❤️ by Abhii</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      text-align: center;
+      color: white;
+    }
+    .page {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: opacity 1s ease;
+    }
+    .active {
+      display: flex;
+    }
+    #page1 { background: black; }
+    #page2 { background: linear-gradient(135deg, #ff4b7d, #ff0066); }
+    #page3 { background: pink; position: relative; overflow: hidden; }
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      background: white;
+      color: black;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: fall 5s linear infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
+    @keyframes fall {
+      0% { transform: translateY(-10%) rotate(45deg); }
+      100% { transform: translateY(110vh) rotate(45deg); }
+    }
+    audio {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <div id="page1" class="page active">
+    <h1 id="typing"></h1>
+    <button onclick="nextPage(2)">Next</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div id="page2" class="page">
+    <h1>Crafted with ❤️ by Abhii</h1>
+    <p>Took me 5 days of sleepless nights and finally built it</p>
+    <button onclick="nextPage(3)">Reveal Surprise</button>
+  </div>
+
+  <!-- Page 3 -->
+  <div id="page3" class="page">
+    <div class="hearts" id="hearts"></div>
+    <h1>This is just the beginning...</h1>
+    <audio controls autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    </audio>
+  </div>
+
+  <script>
+    let currentPage = 1;
+    function nextPage(n) {
+      document.getElementById(`page${currentPage}`).classList.remove("active");
+      document.getElementById(`page${n}`).classList.add("active");
+      currentPage = n;
+      if(n === 3) generateHearts();
+    }
+
+    // Typing effect for page 1
+    const text = "Something special is coming...";
+    let i = 0;
+    function typingEffect() {
+      if(i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typingEffect, 100);
+      }
+    }
+    typingEffect();
+
+    // Floating hearts on page 3
+    function generateHearts() {
+      const container = document.getElementById("hearts");
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 5) + "s";
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 8000);
+      }, 500);
+    }
+  </script>
+</body>
+</html>
